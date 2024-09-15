@@ -53,10 +53,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2m31ZKXIPdLyWQEKKtE1NRBdBWZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -173,8 +177,16 @@
       <workItem from="1726327010946" duration="8848000" />
       <workItem from="1726339639288" duration="1739000" />
       <workItem from="1726341393960" duration="11444000" />
-      <workItem from="1726369591267" duration="16149000" />
+      <workItem from="1726369591267" duration="16793000" />
     </task>
+    <task id="LOCAL-00001" summary="인증 및 toss api 사용">
+      <created>1726392633166</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726392633166</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,6 +202,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="인증 및 toss api 사용" />
+    <option name="LAST_COMMIT_MESSAGE" value="인증 및 toss api 사용" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
