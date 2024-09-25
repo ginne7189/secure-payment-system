@@ -1,53 +1,51 @@
 package com.domain.payment.controller;
 
-import com.domain.payment.service.PaymentData;
+import com.domain.payment.dto.PaymentSuccessDto;
 import com.domain.payment.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/v1/payments")
 public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @Autowired
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
-    // 결제 요청
-    @PostMapping("/request")
-    public ResponseEntity<String> requestPayment(@RequestParam int amount,
-                                                 @RequestParam String orderId,
-                                                 @RequestParam String orderName,
-                                                 @RequestParam String customerEmail,
-                                                 @RequestParam String customerName) {
-        String result = paymentService.requestPayment(amount, orderId, orderName, customerEmail, customerName);
-        return ResponseEntity.ok(result);
+    // POST 요청 처리
+    @PostMapping("/success")
+    public ResponseEntity<String> handleSuccessPost(@RequestParam String paymentKey,
+                                                    @RequestParam String orderId,
+                                                    @RequestParam Long amount) {
+        try {
+            // 결제 승인 요청 및 처리
+            PaymentSuccessDto result = paymentService.tossPaymentSuccess(paymentKey, orderId, amount);
+            return ResponseEntity.ok("결제 승인 성공: " + result);
+        } catch (Exception e) {
+            // 예외 발생 시 처리
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 승인 실패: " + e.getMessage());
+        }
     }
 
-    // 결제 승인(확인)
-    @PostMapping("/confirm")
-    public ResponseEntity<String> confirmPayment(@RequestParam String paymentKey,
-                                                 @RequestParam String orderId,
-                                                 @RequestParam int amount) {
-        String result = paymentService.confirmPayment(paymentKey, orderId, amount);
-        return ResponseEntity.ok(result);
+    // GET 요청 처리 추가
+    @GetMapping("/success")
+    public ResponseEntity<String> handleSuccessGet(@RequestParam String paymentKey,
+                                                   @RequestParam String orderId,
+                                                   @RequestParam Long amount) {
+        return handleSuccessPost(paymentKey, orderId, amount);
     }
 
-    @GetMapping("/history/30days")
-    public ResponseEntity<List<PaymentData>> getPaymentsForLast30Days() {
-        List<PaymentData> paymentDataList = paymentService.getPaymentsForLast30Days();
-        return ResponseEntity.ok(paymentDataList);
+    @PostMapping("/fail")
+    public ResponseEntity<String> handleFailPost(@RequestParam String message, @RequestParam String code) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 실패: " + message + " (code: " + code + ")");
     }
 
-    @GetMapping("/history/7days")
-    public ResponseEntity<List<PaymentData>> getPaymentsForLast7Days() {
-        List<PaymentData> paymentDataList = paymentService.getPaymentsForLast7Days();
-        return ResponseEntity.ok(paymentDataList);
+    // GET 요청 처리 추가
+    @GetMapping("/fail")
+    public ResponseEntity<String> handleFailGet(@RequestParam String message, @RequestParam String code) {
+        return handleFailPost(message, code);
     }
 }
