@@ -10,11 +10,12 @@ spring:
     password: secure_password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
+        format_sql: true
+        use_sql_comments: true
+        ddl-auto: update
         dialect: org.hibernate.dialect.MySQL8Dialect
   redis:
     host: localhost
@@ -35,7 +36,9 @@ toss:
 logging:
   level:
     root: INFO
-    org.springframework.security: DEBUG  # 보안 문제 해결 후 INFO로 변경하는 것을 권장
+    org.hibernate.SQL: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 server:
   error:
